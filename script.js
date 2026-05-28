@@ -138,8 +138,51 @@ async function selectionSort() {
         bars[i].style.background = "lime";
     }
 
-     bars[arr.length - 1].style.background = "lime";
-     sorting = false;
+    bars[arr.length - 1].style.background = "lime";
+    sorting = false;
+}
+
+async function bogoSort() {
+    if (sorting) return;
+    sorting = true;
+
+    const bars = document.getElementsByClassName("bar");
+
+    while (!isSorted(arr)) {
+
+        // Shuffle
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+
+            // Bars being swapped
+            bars[i].style.background = "red";
+            bars[j].style.background = "yellow";
+
+            await sleep(20);
+
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+
+            // Update heights
+            bars[i].style.height = `${arr[j]}px`;
+            bars[j].style.height = `${arr[j]}px`;
+
+            bars[i].style.background = "skyblue";
+            bars[j].style.background = "skyblue";
+        }
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        bars[i].style.background = "lime";
+    }
+
+    sorting = false
+}
+
+function isSorted(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] > arr[i + 1]) return false;
+    }
+    return true;
 }
 
 generateArray();
